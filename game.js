@@ -4,8 +4,8 @@ import StartScene from './StartScene'
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1440,
+    height: 816,
     backgroundColor: 0x000000,
     dom: {
         createContainer: true
