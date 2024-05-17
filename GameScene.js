@@ -3,7 +3,7 @@ import Phaser from "phaser";
 let beat = 1000;
 
 export default class GameScene extends Phaser.Scene {
-    constructor() {
+    constructor(sizes) {
         super({ key: 'gameScene' });
         this.kick;
         this.quadrants;
@@ -12,6 +12,8 @@ export default class GameScene extends Phaser.Scene {
         this.anims;
         this.cursors;
         this.score = 0;
+        this.sizes = sizes;
+        console.log(sizes);
     }
 
     preload() {
@@ -36,7 +38,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0, 0, "background").setOrigin(0, 0);
+        this.add.image(this.sizes.width/2, this.sizes.height/2, "background").setOrigin(0.5, 0.5);
         this.kick = this.sound.add("kick");
 
         this.quadrants = [
