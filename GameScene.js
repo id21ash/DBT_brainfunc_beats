@@ -120,8 +120,14 @@ export default class GameScene extends Phaser.Scene {
 
             this.anims.create({
                 key: `${texture}_boom`,
-                frames: this.anims.generateFrameNumbers(texture, { start: 4, end: 6 }),
-                frameRate: 40
+                frames: [
+                    { key: texture, frame: 4 },
+                    { key: texture, frame: 5 },
+                    { key: texture, frame: 6 },
+                    { key: texture, frame: 5 },
+                    { key: texture, frame: 4 }
+                ],
+                frameRate: 20
             });
         });
     }
