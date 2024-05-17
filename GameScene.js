@@ -13,7 +13,6 @@ export default class GameScene extends Phaser.Scene {
         this.cursors;
         this.score = 0;
         this.sizes = sizes;
-        console.log(sizes);
     }
 
     preload() {
