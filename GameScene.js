@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-let beat = 1000;
+let beat = 600;
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
@@ -54,7 +54,7 @@ export default class GameScene extends Phaser.Scene {
         });
 
         this.animationTimer = this.time.addEvent({
-            delay: beat*2,
+            delay: beat*4,
             callback: this.triggerEvent,
             callbackScope: this,
             loop: true
@@ -121,10 +121,9 @@ export default class GameScene extends Phaser.Scene {
             this.anims.create({
                 key: `${texture}_steps`,
                 frames: [
-                    { key: texture, frame: 0, duration: 2 },
-                    { key: texture, frame: 1, duration: 20 },
-                    { key: texture, frame: 2, duration: 20 },
-                    { key: texture, frame: 3, duration: 50 }
+                    { key: texture, frame: 1, duration: beat },
+                    { key: texture, frame: 2, duration: beat },
+                    { key: texture, frame: 3, duration: beat }
                 ],
                 frameRate: 10
             });
