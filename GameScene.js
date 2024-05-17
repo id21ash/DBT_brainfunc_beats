@@ -111,23 +111,34 @@ export default class GameScene extends Phaser.Scene {
         this.quadrants.forEach(quadrant => {
             const texture = quadrant[0];
 
+            /*
             this.anims.create({
                 key: `${texture}_steps`,
                 frames: this.anims.generateFrameNumbers(texture, { start: 0, end: 3 }),
                 frameRate: 4,
                 //repeat: -1
+            });*/
+            this.anims.create({
+                key: `${texture}_steps`,
+                frames: [
+                    { key: texture, frame: 0, duration: 2 },
+                    { key: texture, frame: 1, duration: 20 },
+                    { key: texture, frame: 2, duration: 20 },
+                    { key: texture, frame: 3, duration: 50 }
+                ],
+                frameRate: 10
             });
 
             this.anims.create({
                 key: `${texture}_boom`,
                 frames: [
-                    { key: texture, frame: 4 },
-                    { key: texture, frame: 5 },
-                    { key: texture, frame: 6 },
-                    { key: texture, frame: 5 },
-                    { key: texture, frame: 4 }
+                    { key: texture, frame: 4, duration: 20 },
+                    { key: texture, frame: 5, duration: 20 },
+                    { key: texture, frame: 6, duration: 200 }, // Longer duration for frame 6
+                    { key: texture, frame: 5, duration: 50 },
+                    { key: texture, frame: 4, duration: 50 }
                 ],
-                frameRate: 20
+                frameRate: 10
             });
         });
     }
