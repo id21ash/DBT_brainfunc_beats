@@ -6,6 +6,7 @@ export default class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'gameScene' });
         this.kick;
+        this.song;
         this.quadrants;
         this.timerEvent;
         this.target;
@@ -17,6 +18,9 @@ export default class GameScene extends Phaser.Scene {
     preload() {
         this.load.image('background', 'assets/background.png');
         this.load.audio("kick", "/assets/kick.mp3");
+        this.load.audio("tiktok", "/assets/tiktok.mp3");
+        this.load.audio("callmemaybe", "/assets/callmemaybe.mp3");
+
         this.load.spritesheet('arrows_green',
             'assets/arrows_green.png',
             { frameWidth: 279, frameHeight: 257 }
@@ -38,6 +42,8 @@ export default class GameScene extends Phaser.Scene {
     create() {
         this.add.image(0, 0, "background").setOrigin(0, 0);
         this.kick = this.sound.add("kick");
+        this.song = this.sound.add("tiktok");
+        //this.song = this.sound.add("callmemaybe");
 
         this.quadrants = [
             ["arrows_pink", (this.scale.width / 4) * 3, this.scale.height / 4], 
@@ -45,6 +51,10 @@ export default class GameScene extends Phaser.Scene {
             ["arrows_purple", this.scale.width / 4, (this.scale.height / 4) * 3], 
             ["arrows_yellow", (this.scale.width / 4) * 3, (this.scale.height / 4) * 3]
         ];
+
+        this.time.delayedCall(750, () => {
+            this.song.play();
+        });
 
         this.beatTimer = this.time.addEvent({
             delay: beat,
@@ -54,7 +64,7 @@ export default class GameScene extends Phaser.Scene {
         });
 
         this.animationTimer = this.time.addEvent({
-            delay: beat*2,
+            delay: beat * 2,
             callback: this.triggerEvent,
             callbackScope: this,
             loop: true
@@ -62,9 +72,18 @@ export default class GameScene extends Phaser.Scene {
 
         let position = this.getRandomQuadrant();
         this.target = this.add.sprite(position[1], position[2], position[0]).setOrigin(0.5, 0.5);
-        this.target.angle = this.getRandomRotation();
+
+        // Set rotation of target depending on which quadrant it is in
+        if (this.target.texture.key === 'arrows_green') { 
+            this.target.angle = this.getRandomLeftArmRotation(); 
+        } else if (this.target.texture.key === 'arrows_pink') { 
+            this.target.angle = this.getRandomRightArmRotation(); 
+        } else { 
+            this.target.angle = this.getRandomLegRotation(); 
+        }
 
         this.createAnimations();
+        this.playAnimation(position[0]);
 
         this.cursors = this.input.keyboard.createCursorKeys();
     }
@@ -85,14 +104,26 @@ export default class GameScene extends Phaser.Scene {
         this.target.setTexture(newPosition[0]);
         this.target.setX(newPosition[1]);
         this.target.setY(newPosition[2]);
-        this.target.angle = this.getRandomRotation();
 
-        this.target.play(`${newPosition[0]}_steps`, true);
+        // Set rotation of target depending on which quadrant it is in
+        if (this.target.texture.key === 'arrows_green') { 
+            this.target.angle = this.getRandomLeftArmRotation(); 
+        } else if (this.target.texture.key === 'arrows_pink') { 
+            this.target.angle = this.getRandomRightArmRotation(); 
+        } else { 
+            this.target.angle = this.getRandomLegRotation(); 
+        }
+
+        this.playAnimation(newPosition[0]);
+    }
+
+    playAnimation(textureKey) {
+        this.target.play(`${textureKey}_steps`, true);
 
         // Ensure the 'boom' animation plays after the 'steps' animation completes
-        this.target.on('animationcomplete', () => {
-            if (this.target.anims.currentAnim.key === `${newPosition[0]}_steps`) {
-                this.target.play(`${newPosition[0]}_boom`);
+        this.target.once('animationcomplete', () => {
+            if (this.target.anims.currentAnim.key === `${textureKey}_steps`) {
+                this.target.play(`${textureKey}_boom`);
             }
         });
     }
@@ -104,6 +135,21 @@ export default class GameScene extends Phaser.Scene {
     getRandomRotation() {
         const rotations = [0, 90, 180, 270];
         return rotations[Math.floor(Math.random() * 4)];
+    }
+
+    getRandomLeftArmRotation() {
+        const rotations = [0, -90];
+        return rotations[Math.floor(Math.random() * 2)];
+    }
+
+    getRandomRightArmRotation() {
+        const rotations = [0, 90];
+        return rotations[Math.floor(Math.random() * 2)];
+    }
+
+    getRandomLegRotation() {
+        const rotations = [0, 180];
+        return rotations[Math.floor(Math.random() * 2)];
     }
 
     createAnimations() {
