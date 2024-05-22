@@ -3,7 +3,7 @@ import Phaser from "phaser";
 let beat = 500;
 
 export default class GameScene extends Phaser.Scene {
-    constructor(sizes) {
+    constructor() {
         super({ key: 'gameScene' });
         this.kick;
         this.song;
@@ -12,9 +12,6 @@ export default class GameScene extends Phaser.Scene {
         this.target;
         this.anims;
         this.cursors;
-        this.score = 0;
-        this.sizes = sizes;
-        console.log(sizes)
     }
 
     preload() {
@@ -42,7 +39,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(this.sizes.width/2, this.sizes.height/2, "background").setOrigin(0.5, 0.5);        
+        this.add.image(this.scale.width/2, this.scale.height/2, "background").setOrigin(0.5, 0.5);        
         this.kick = this.sound.add("kick");
         this.song = this.sound.add("tiktok");
         //this.song = this.sound.add("callmemaybe");
@@ -75,6 +72,16 @@ export default class GameScene extends Phaser.Scene {
 
         let position = this.getRandomQuadrant();
         this.target = this.add.sprite(position[1], position[2], position[0]).setOrigin(0.5, 0.5);
+
+        // Resize based on window size
+        // this.target.angle = this.getRandomRotation();
+        if (this.scale.width < this.scale.height) {
+            this.target.displayWidth = this.scale.width*0.35;
+            this.target.scaleY = this.target.scaleX;
+        } else {
+            this.target.displayHeight = this.scale.height*0.35;
+            this.target.scaleX = this.target.scaleY;
+        }
 
         // Set rotation of target depending on which quadrant it is in
         if (this.target.texture.key === 'arrows_green') {
@@ -174,7 +181,7 @@ export default class GameScene extends Phaser.Scene {
             this.anims.create({
                 key: `${texture}_steps`,
                 frames: this.anims.generateFrameNumbers(texture, { start: 1, end: 3 }),
-                frameRate: 100/beat
+                frameRate: 1000/beat
             });
 
             this.anims.create({
