@@ -7,8 +7,6 @@ const sizes = {
     height: window.innerHeight
 };
 
-const gamescene = new GameScene(sizes);
-
 const config = {
     type: Phaser.AUTO,
     width: sizes.width,
@@ -17,7 +15,7 @@ const config = {
     dom: {
         createContainer: true
     },
-    scene: [StartScene, gamescene, GameOverScene]
+    scene: [StartScene, GameScene, GameOverScene]
 };
 
 const game = new Phaser.Game(config);
