@@ -22,7 +22,6 @@ export default class GameOverScene extends Phaser.Scene {
     this.load.image('bakgrundkub', 'bakgrundskub.png'); 
     this.load.image('knapp', 'knapp.png'); 
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
-
   }
 
   create() {
@@ -43,23 +42,31 @@ export default class GameOverScene extends Phaser.Scene {
                 padding: { x: 50, y: 10 },
             };
 
-            
-            const mittBilden = this.add.image(this.scale.width / 2, this.scale.height / 2, 'bakgrundkub').setOrigin(0.5);
-
-            const startButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 247, 'knapp').setOrigin(0.5);
-            startButton.setInteractive();
-            startButton.on('pointerdown', () => {
+            this.mittBilden = this.add.image(this.scale.width / 2, this.scale.height / 2, 'bakgrundkub').setOrigin(0.5);
+            this.startButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 247, 'knapp').setOrigin(0.5);
+            this.startButton.setInteractive();
+            this.startButton.on('pointerdown', () => {
                 this.scene.start('startScene');
             });
-            const randomMessage = this.messages[Math.floor(Math.random() * this.messages.length)];
-            this.add.text(this.scale.width / 2, 210, randomMessage, textStyle).setOrigin(0.5);
 
+            const randomMessage = this.messages[Math.floor(Math.random() * this.messages.length)];
+            this.messageText = this.add.text(this.scale.width / 2, this.scale.height / 2 - 100, randomMessage, textStyle).setOrigin(0.5);
+
+            this.resize();
+            this.scale.on('resize', this.resize, this);
         }
     });
-}
+  }
 
-update(time, delta) {
-  this.background.tilePositionX += 0.5;
-}
+  update(time, delta) {
+    this.background.tilePositionX += 0.5;
+  }
 
+  resize() {
+    this.background.setSize(this.scale.width, this.scale.height);
+    this.mittBilden.setPosition(this.scale.width / 2, this.scale.height / 2);
+    this.startButton.setPosition(this.scale.width / 2, this.scale.height / 2 + 247);
+    this.messageText.setPosition(this.scale.width / 2, this.scale.height / 2 - 100);
+
+  }
 }
