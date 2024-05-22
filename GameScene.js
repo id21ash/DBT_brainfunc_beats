@@ -173,12 +173,8 @@ export default class GameScene extends Phaser.Scene {
             });*/
             this.anims.create({
                 key: `${texture}_steps`,
-                frames: [
-                    { key: texture, frame: 1, duration: beat },
-                    { key: texture, frame: 2, duration: beat },
-                    { key: texture, frame: 3, duration: beat }
-                ],
-                frameRate: 10
+                frames: this.anims.generateFrameNumbers(texture, { start: 1, end: 3 }),
+                frameRate: 100/beat
             });
 
             this.anims.create({
