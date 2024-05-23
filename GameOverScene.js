@@ -42,7 +42,7 @@ export default class GameOverScene extends Phaser.Scene {
                 padding: { x: 50, y: 10 },
             };
 
-            this.mittBilden = this.add.image(this.scale.width / 2, this.scale.height / 2, 'bakgrundkub').setOrigin(0.5);
+            this.bakgrundkub = this.add.image(this.scale.width / 2, this.scale.height / 2, 'bakgrundkub').setOrigin(0.5);
             this.startButton = this.add.image(this.scale.width / 2, this.scale.height / 2 + 247, 'knapp').setOrigin(0.5);
             this.startButton.setInteractive();
             this.startButton.on('pointerdown', () => {
@@ -57,16 +57,15 @@ export default class GameOverScene extends Phaser.Scene {
         }
     });
   }
-
+  //våra fina animerade pilar(hastighet)
   update(time, delta) {
     this.background.tilePositionX += 0.5;
   }
 
   resize() {
     this.background.setSize(this.scale.width, this.scale.height);
-    this.mittBilden.setPosition(this.scale.width / 2, this.scale.height / 2);
+    this.bakgrundkub.setPosition(this.scale.width / 2, this.scale.height / 2);
     this.startButton.setPosition(this.scale.width / 2, this.scale.height / 2 + 247);
-    this.messageText.setPosition(this.scale.width / 2, this.scale.height / 2 - 100);
-
+    this.messageText.setPosition(this.scale.width / 2, this.scale.height / 2 - 195);
   }
 }
