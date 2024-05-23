@@ -18,9 +18,9 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('bakgrund', 'bakgrundspil.png');
-    this.load.image('bakgrundkub', 'bakgrundskub.png'); 
-    this.load.image('knapp', 'knapp.png'); 
+    this.load.image('bakgrund', 'assets/bakgrundspil.png');
+    this.load.image('bakgrundkub', 'assets/bakgrundskub.png'); 
+    this.load.image('knapp', 'assets/knapp.png'); 
     this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
   }
 

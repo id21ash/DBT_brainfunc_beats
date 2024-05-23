@@ -1,16 +1,16 @@
-export default class StartScene extends Phaser.Scene {
+export default class TutorialScene extends Phaser.Scene {
     constructor() {
-        super({ key: 'startScene' });
+        super({ key: 'tutorialScene' });
         this.tutorial;
     }
 
     preload() {
-        this.load.image('background', 'assets/background.png');
+        this.load.image('tutorial', 'assets/tutorial.png');
         this.load.image('play_button', 'assets/play_button_small.png');
     }
 
     create() {
-        this.tutorial = this.add.image(this.scale.width/2, this.scale.height/2, "background").setOrigin(0.5, 0.5);
+        this.tutorial = this.add.image(this.scale.width/2, this.scale.height/2, "tutorial").setOrigin(0.5, 0.5);
         if (this.scale.width < this.scale.height) {
             this.tutorial.displayWidth = this.scale.width;
             this.tutorial.scaleY = this.tutorial.scaleX;
@@ -27,7 +27,7 @@ export default class StartScene extends Phaser.Scene {
         this.startButton.setInteractive();
         this.startButton.on('pointerdown', () => {
             // Resume the main game scene when the start button is clicked
-            this.scene.start('tutorialScene');
+            this.scene.start('gameScene');
         });
     }
 }
