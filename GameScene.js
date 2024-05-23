@@ -12,10 +12,12 @@ export default class GameScene extends Phaser.Scene {
         this.target;
         this.anims;
         this.cursors;
+        this.musicShouldResume = false;
     }
 
     preload() {
         this.load.image('background', 'assets/background.png');
+        this.load.image('pauseButton', '/assets/Paus.png');
         this.load.audio("kick", "/assets/kick.mp3");
         this.load.audio("tiktok", "/assets/tiktok.mp3");
         this.load.audio("callmemaybe", "/assets/callmemaybe.mp3");
@@ -96,6 +98,24 @@ export default class GameScene extends Phaser.Scene {
         this.playAnimation(position[0]);
 
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        //Pausknapp
+        this.pauseButton = this.add.image(this.scale.width - 80, 50, 'pauseButton').setOrigin(0.5, 0.5);
+        this.pauseButton.setDisplaySize(70, 70);
+        this.pauseButton.setInteractive();
+        this.pauseButton.on('pointerdown', () => {
+            this.song.pause();
+            this.musicShouldResume = true; 
+            this.scene.pause();
+            this.scene.launch('PauseScene');
+        });
+
+        this.events.on('resume', () => {
+            if (this.musicShouldResume) {
+                this.song.resume();
+                this.musicShouldResume = false; 
+            }
+        });
     }
 
     update() {

@@ -2,6 +2,7 @@ import GameScene from './GameScene'
 import GameOverScene from './GameOverScene'
 import StartScene from './StartScene'
 import TutorialScene from './TutorialScene'
+import PauseScene from './PauseScene'
 
 const sizes = {
     width: window.innerWidth,
@@ -16,7 +17,7 @@ const config = {
     dom: {
         createContainer: true
     },
-    scene: [StartScene, TutorialScene, GameScene, GameOverScene]
+    scene: [StartScene, TutorialScene, GameScene, PauseScene, GameOverScene]
 };
 
 const game = new Phaser.Game(config);
