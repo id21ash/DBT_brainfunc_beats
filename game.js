@@ -11,7 +11,7 @@ const config = {
     type: Phaser.AUTO,
     width: sizes.width,
     height: sizes.height,
-    backgroundColor: 0x000000,
+    backgroundColor: 0xffffff,
     dom: {
         createContainer: true
     },
