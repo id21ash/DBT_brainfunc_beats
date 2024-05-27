@@ -28,7 +28,7 @@ export default class StartScene extends Phaser.Scene {
         let currentButtonY = buttonYStart;
 
         this.playbutton = this.createButton(buttonX, currentButtonY, 'playbutton', buttonScaleFactor, () => {
-            this.scene.start('gameScene');
+            this.scene.start('tutorialScene');
         });
         currentButtonY += this.playbutton.height * buttonScaleFactor + buttonSpacing;
 

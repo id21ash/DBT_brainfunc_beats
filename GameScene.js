@@ -128,7 +128,6 @@ export default class GameScene extends Phaser.Scene {
             this.scene.stop();
             this.scene.remove('gameScene');
             this.scene.start('gameOverScene');
-            
         }
     }
 
@@ -195,13 +194,6 @@ export default class GameScene extends Phaser.Scene {
         this.quadrants.forEach(quadrant => {
             const texture = quadrant[0];
 
-            /*
-            this.anims.create({
-                key: `${texture}_steps`,
-                frames: this.anims.generateFrameNumbers(texture, { start: 1, end: 3 }),
-                frameRate: 1000/beat,
-                //repeat: -1
-            });*/
             this.anims.create({
                 key: `${texture}_steps`,
                 frames: this.anims.generateFrameNumbers(texture, { start: 1, end: 3 }),
