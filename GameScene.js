@@ -46,6 +46,10 @@ export default class GameScene extends Phaser.Scene {
         this.song = this.sound.add("tiktok");
         //this.song = this.sound.add("callmemaybe");
 
+        this.song.on('complete', () => {
+            this.scene.start('gameOverScene');
+        });
+
         this.quadrants = [
             ["arrows_pink", (this.scale.width / 4) * 3, this.scale.height / 4],
             ["arrows_green", this.scale.width / 4, this.scale.height / 4],
