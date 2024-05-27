@@ -41,7 +41,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(this.scale.width/2, this.scale.height/2, "background").setOrigin(0.5, 0.5);        
+        this.add.image(this.scale.width / 2, this.scale.height / 2, "background").setOrigin(0.5, 0.5);
         this.kick = this.sound.add("kick");
         this.song = this.sound.add("tiktok");
         //this.song = this.sound.add("callmemaybe");
@@ -78,14 +78,15 @@ export default class GameScene extends Phaser.Scene {
 
         let position = this.getRandomQuadrant();
         this.target = this.add.sprite(position[1], position[2], position[0]).setOrigin(0.5, 0.5);
+        this.target.alpha = 0;
 
         // Resize based on window size
         // this.target.angle = this.getRandomRotation();
         if (this.scale.width < this.scale.height) {
-            this.target.displayWidth = this.scale.width*0.35;
+            this.target.displayWidth = this.scale.width * 0.35;
             this.target.scaleY = this.target.scaleX;
         } else {
-            this.target.displayHeight = this.scale.height*0.35;
+            this.target.displayHeight = this.scale.height * 0.35;
             this.target.scaleX = this.target.scaleY;
         }
 
@@ -109,7 +110,7 @@ export default class GameScene extends Phaser.Scene {
         this.pauseButton.setInteractive();
         this.pauseButton.on('pointerdown', () => {
             this.song.pause();
-            this.musicShouldResume = true; 
+            this.musicShouldResume = true;
             this.scene.pause();
             this.scene.launch('PauseScene');
         });
@@ -117,7 +118,7 @@ export default class GameScene extends Phaser.Scene {
         this.events.on('resume', () => {
             if (this.musicShouldResume) {
                 this.song.resume();
-                this.musicShouldResume = false; 
+                this.musicShouldResume = false;
             }
         });
     }
@@ -141,6 +142,7 @@ export default class GameScene extends Phaser.Scene {
         this.target.setTexture(newPosition[0]);
         this.target.setX(newPosition[1]);
         this.target.setY(newPosition[2]);
+        this.target.alpha = 1;
 
         // Set rotation of target depending on which quadrant it is in
         if (this.target.texture.key === 'arrows_green') {
@@ -197,7 +199,7 @@ export default class GameScene extends Phaser.Scene {
             this.anims.create({
                 key: `${texture}_steps`,
                 frames: this.anims.generateFrameNumbers(texture, { start: 1, end: 3 }),
-                frameRate: 1000/beat
+                frameRate: 1000 / beat
             });
 
             this.anims.create({
