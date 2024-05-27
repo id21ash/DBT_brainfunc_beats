@@ -1,33 +1,59 @@
 export default class StartScene extends Phaser.Scene {
-    constructor() {
+    constructor(data) {
         super({ key: 'startScene' });
-        this.tutorial;
     }
 
     preload() {
-        this.load.image('background', 'assets/background.png');
-        this.load.image('play_button', 'assets/play_button_small.png');
+        this.load.image('logo', 'assets/beats.png');
+        this.load.image('pilar', 'assets/pilar.png');
+        this.load.image('playbutton', 'assets/Playbutton.png');
+        this.load.image('settingsbutton', 'assets/Settingsbutton.png');
+        this.load.image('infobutton', 'assets/Infobutton.png');
+        this.load.image('endbutton', 'assets/Endbutton.png');
     }
 
     create() {
-        this.tutorial = this.add.image(this.scale.width/2, this.scale.height/2, "background").setOrigin(0.5, 0.5);
-        if (this.scale.width < this.scale.height) {
-            this.tutorial.displayWidth = this.scale.width;
-            this.tutorial.scaleY = this.tutorial.scaleX;
-        } else {
-            this.tutorial.displayHeight = this.scale.height;
-            this.tutorial.scaleX = this.tutorial.scaleY;
-        }
-        this.startButton = this.add.image(this.tutorial.displayWidth*0.97, this.tutorial.displayHeight*0.1, "play_button").setOrigin(0.5, 0.5);        
-        this.startButton.displayWidth = this.tutorial.displayWidth/10;
-        this.startButton.scaleY = this.startButton.scaleX;
+        this.cameras.main.setBackgroundColor('#D7F8FF');
 
-        // Add start screen UI elements
-        //const startButton = this.add.text(400, 300, 'Start', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
-        this.startButton.setInteractive();
-        this.startButton.on('pointerdown', () => {
-            // Resume the main game scene when the start button is clicked
-            this.scene.start('tutorialScene');
+        const logoScaleFactor = Math.min(this.scale.width / 1000, this.scale.height / 800);
+        this.logo = this.add.image(20, 50, 'logo').setOrigin(0, 0);
+        this.logo.setScale(logoScaleFactor);
+
+        const buttonScaleFactor = Math.min(this.scale.width / 1500, this.scale.height / 1300);
+        const buttonX = 220; // knapparna nära vänsterkanten
+
+        const buttonYStart = this.logo.y + (this.logo.height * logoScaleFactor) + 100; // 50 avståndet under logon
+        const buttonSpacing = 20 * buttonScaleFactor; // Avstånd mellan knapparna
+
+        let currentButtonY = buttonYStart;
+
+        this.playbutton = this.createButton(buttonX, currentButtonY, 'playbutton', buttonScaleFactor, () => {
+            this.scene.start('gameScene');
         });
+        currentButtonY += this.playbutton.height * buttonScaleFactor + buttonSpacing;
+
+        this.settingsbutton = this.createButton(buttonX, currentButtonY, 'settingsbutton', buttonScaleFactor);
+        currentButtonY += this.settingsbutton.height * buttonScaleFactor + buttonSpacing;
+
+        this.infobutton = this.createButton(buttonX, currentButtonY, 'infobutton', buttonScaleFactor);
+        currentButtonY += this.infobutton.height * buttonScaleFactor + buttonSpacing;
+
+        this.endbutton = this.createButton(buttonX, currentButtonY, 'endbutton', buttonScaleFactor);
+
+        const pilarScaleFactor = Math.min(this.scale.width / 1200, this.scale.height / 1000);
+        const pilarX = this.scale.width - (this.textures.get('pilar').getSourceImage().width * pilarScaleFactor / 2);
+        const pilarY = this.scale.height / 2;
+        this.pilar = this.add.image(pilarX, pilarY, 'pilar').setOrigin(0.5, 0.5);
+        this.pilar.setScale(pilarScaleFactor);
+    }
+
+    createButton(x, y, texture, scale, callback = null) {
+        const button = this.add.image(x, y, texture).setOrigin(0.5, 0.5);
+        button.setScale(scale);
+        if (callback) {
+            button.setInteractive();
+            button.on('pointerdown', callback);
+        }
+        return button;
     }
 }
